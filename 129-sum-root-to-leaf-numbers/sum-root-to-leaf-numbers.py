@@ -8,21 +8,13 @@ class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
         if root is None:
             return 0
-        arr = []
-        result = 0
 
-        self.rec(root, 0, arr)
-
-        for num in arr:
-            result += num
-
-        return result
+        return self.rec(root, 0)
     
-    def rec(self, root, number, arr):
+    def rec(self, root, number):
+        if root is None:
+            return 0
+        new_value = number * 10 + root.val
         if root.left is None and root.right is None:
-            arr.append(number * 10 + root.val)
-            return
-        if root.left is not None:
-            self.rec(root.left, number * 10 + root.val, arr)
-        if root.right is not None:
-            self.rec(root.right, number * 10 + root.val, arr)
+            return new_value
+        return self.rec(root.left, new_value) + self.rec(root.right, new_value)

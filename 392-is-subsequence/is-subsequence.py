@@ -5,16 +5,15 @@ class Solution:
         len_t = len(t)
         len_s = len(s)
 
-        while (pointer_s < len_s):
-            if pointer_t >= len_t:
-                return False
-            for i in range(pointer_t, len_t):
-                if t[pointer_t] == s[pointer_s]:
-                    pointer_t += 1
-                    pointer_s += 1
-                    break
-                else:
-                    pointer_t += 1 
+        if len_s > len_t:
+            return False
+        
+        while(pointer_s < len_s and pointer_t < len_t):
+            if s[pointer_s] == t[pointer_t]:
+                pointer_s += 1
+            pointer_t += 1
+        
+        if pointer_s < len_s:
+            return False
         return True
-
             

@@ -4,13 +4,14 @@ class Solution:
         array = []
         index = 0
         for string in strs:
-            sorted_string = ''.join(sorted(string))
-            print(sorted_string)
+            char_array = [0] * 26
+            for char in string:
+                char_array[ord(char) - 97] += 1
             try:
-                stored_index = anagrams[sorted_string]
+                stored_index = anagrams[f"'{char_array}'"]
                 array[stored_index].append(string)
             except:
-                anagrams[sorted_string] = index
+                anagrams[f"'{char_array}'"] = index
                 array.append([string])
                 index += 1
         return array

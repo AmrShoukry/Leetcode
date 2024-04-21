@@ -4,18 +4,18 @@ class Solution:
         prefix = [1] * (nums_len + 1)
         suffix = [1] * (nums_len + 1)
         output = [1] * nums_len
+        suffix_pointer = nums_len - 1
 
-        product = 1
-        prefix[0] = product
+        product_prefix = 1
+        product_suffix = 1
+        prefix[0] = product_prefix
+        suffix[nums_len] = product_suffix
         for i in range(nums_len):
-            product *= nums[i]
-            prefix[i + 1] = product
-
-        product = 1
-        suffix[nums_len] = product
-        for i in range(nums_len - 1, -1, -1):
-            product *= nums[i]
-            suffix[i] = product
+            product_prefix *= nums[i]
+            prefix[i + 1] = product_prefix
+            product_suffix *= nums[suffix_pointer]
+            suffix[suffix_pointer] = product_suffix
+            suffix_pointer -= 1
 
         for i in range(nums_len):
             output[i] = prefix[i] * suffix[i + 1]

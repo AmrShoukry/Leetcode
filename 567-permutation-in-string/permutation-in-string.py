@@ -4,27 +4,34 @@ class Solution:
         s2_length = len(s2)
         pointer_left = 0
         pointer_right = s1_length - 1
+        s1_arr = [0] * 26
+        s2_arr = [0] * 26
+
+        if s2_length < s1_length:
+            return False
+
+        for char in s1:
+            s1_arr[ord(char) - ord('a')] += 1
+
+        for i in range(pointer_left, pointer_right):
+            if s2[i] in s1:
+                s2_arr[ord(s2[i]) - ord('a')] += 1
 
         while pointer_right < s2_length:
-            found = True
-            s1_hash = {}
-            for char in s1:
-                value = s1_hash.get(char, 's')
-                if value == 's':
-                    s1_hash[char] = 1
-                else:
-                    s1_hash[char] += 1
-            for i in range(pointer_left, pointer_right + 1):
-                value = s1_hash.get(s2[i], 's')
-                if value != 's':
-                    s1_hash[s2[i]] -= 1
-            for item in s1_hash:
-                if s1_hash[item] != 0:
-                    found = False
-                    break
-            if found:
-                return True
-            
+            if s2[pointer_right] in s1:
+                s2_arr[ord(s2[pointer_right]) - ord('a')] += 1
+            if (self.equalArrays(s1_arr, s2_arr)):
+                return True   
+            if s2_arr[ord(s2[pointer_left]) - ord('a')] > 0: 
+                s2_arr[ord(s2[pointer_left]) - ord('a')] -= 1         
+
             pointer_left += 1
             pointer_right += 1
         return False
+
+
+    def equalArrays(self, arr1, arr2):
+        for i in range(26):
+            if arr1[i] != arr2[i]:
+                return False
+        return True

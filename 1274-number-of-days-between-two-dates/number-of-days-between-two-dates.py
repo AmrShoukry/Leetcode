@@ -5,6 +5,30 @@ class Solution:
         return handleDefference(date2, date1)
 
 def handleDefference(date1, date2):
+    count = 0
+
+    def addDays(day1, day2):
+        count = 0
+        count += day1 - day2
+        return count
+    
+    def addMonths(year, month1, month2, day1, day2):
+        count = 0
+        for i in range(month2, month1):
+                count += months.get(i)
+                if (i == 2 and year % 4 == 0 and year != 2100):
+                    count += 1
+        return count + addDays(day1, day2)
+
+    def addYears(year1, year2, month1, month2, day1, day2):
+        count = 0
+        for i in range(year2, year1):
+            if (i % 4 == 0 and i != 2100):
+                count += 366
+            else:
+                count += 365
+        return count + addMonths(year1, month1, month2, day1, day2)
+
     months = {
         1: 31,
         2: 28,
@@ -20,7 +44,6 @@ def handleDefference(date1, date2):
         12: 31
     }
 
-    count = 0
     year1, month1, day1 = map(int, date1.split('-'))
     year2, month2, day2 = map(int, date2.split('-'))
 
@@ -29,56 +52,24 @@ def handleDefference(date1, date2):
             if day1 == day2:
                 return count
             else:
-                count += day1 - day2
-                return count
+                return count + addDays(day1, day2)
         else:
-            for i in range(month2, month1):
-                count += months.get(i)
-                if (i == 2 and year1 % 4 == 0 and year1 != 2100):
-                    count += 1
-            count += day1 - day2
-            return count      
+            return count + addMonths(year1, month1, month2, day1, day2)   
     else:
-        newMonth = 12
-        newDay = 31
-        for i in range(month2, newMonth):
-            count += months.get(i)
-            if (i == 2 and year2 % 4 == 0 and year2 != 2100):
-                count += 1
-        # print(count)
-        count += newDay - day2
+        count += addMonths(year2, 12, month2, 31, day2)
         count += 1
         year2 += 1
         month2 = 1
         day2 = 1
-        # print("Date1: ", year1, month1, day1)
-        # print("Date2: ", year2, month2, day2)
-        # print(count)
         if year2 == year1:
             if month2 == month1:
                 if day2 == day1:
                     return count
                 else:
-                    print(count)
-                    count += day1 - day2
-                    return count
+                    return count + addDays(day1, day2)
             else:
-                for i in range(month2, month1):
-                    count += months.get(i)
-                    if (i == 2 and year1 % 4 == 0 and year1 != 2100):
-                        count += 1
-                count += day1 - day2
-                return count
+                return count + addMonths(year1, month1, month2, day1, day2)
 
         else:
-            for i in range(year2, year1):
-                if (i % 4 == 0 and i != 2100):
-                    count += 366
-                else:
-                    count += 365
-            for i in range(month2, month1):
-                count += months.get(i)
-                if (i == 2 and year1 % 4 == 0 and year1 != 2100):
-                    count += 1
-            count += day1 - day2
-            return count
+            return count + addYears(year1, year2, month1, month2, day1, day2)
+

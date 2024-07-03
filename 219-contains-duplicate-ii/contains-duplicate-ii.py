@@ -1,13 +1,13 @@
 class Solution:
     def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
-        pointer = 0
-        length = len(nums)
-        hashes = {}
-
-        while pointer < length:
-            if abs(hashes.get(nums[pointer], 99999) - pointer) <= k:
-                return True
-            hashes[nums[pointer]] = pointer
-            pointer += 1
-
+        hashNums = {}
+        for index, num in enumerate(nums):
+            idx = hashNums.get(num, -1)
+            if idx != -1:
+                if index - idx <= k:
+                    return True
+                else:
+                    hashNums[num] = index
+            else:
+                hashNums[num] = index
         return False

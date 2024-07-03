@@ -1,17 +1,18 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         anagrams = {}
-        array = []
+        solution = []
         index = 0
         for string in strs:
-            sorted_string = ''.join(sorted(string))
-            print(sorted_string)
-            try:
-                stored_index = anagrams[sorted_string]
-                array[stored_index].append(string)
-            except:
-                anagrams[sorted_string] = index
-                array.append([string])
+            sortedStr = ''.join(sorted(string))
+
+            val = anagrams.get(sortedStr, -1)
+            if val == -1:
+                solution.append([string])
+                anagrams[sortedStr] = index
                 index += 1
-        return array
+            else:
+                solution[val].append(string)
+        return solution
+
         

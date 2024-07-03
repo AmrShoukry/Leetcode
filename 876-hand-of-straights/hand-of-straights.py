@@ -3,27 +3,24 @@ class Solution:
         length = len(hand)
         if length % groupSize != 0:
             return False
-
-        nums = sorted(hand)
-        rows = {}
-        iterations = {}
-        groups = length // groupSize
-
-        for i in range(groups):
-            rows[i] = 's'
-            iterations[i] = 0
         
-        for num in nums:
-            found = 0
-            for key, value in rows.items():
-                if value == 's' or (num == rows[key] + 1 and iterations[key] < groupSize):
-                    rows[key] = num
-                    iterations[key] += 1
-                    found = 1
-                    break
-            if found == 0:
-                return False
+        iterations = {}
 
+        for num in hand:
+            iterations[num] = iterations.get(num, 0) + 1
+        
+        heap = list(iterations.keys())
+        heapq.heapify(heap)
+
+        while heap:
+            least = heap[0]
+
+            for i in range(least, least + groupSize):
+                if i not in iterations:
+                    return False
+                iterations[i] -= 1
+                if iterations[i] == 0:
+                    if heap[0] != i:
+                        return False
+                    heapq.heappop(heap)
         return True
-
-

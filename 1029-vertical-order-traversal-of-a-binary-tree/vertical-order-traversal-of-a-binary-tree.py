@@ -22,7 +22,6 @@ class Solution:
                 } 
             else:
                 rowPosition = positions[column].get(row, -1)
-                print(rowPosition)
                 if rowPosition == -1:
                     positions[column][row] = [node.val]
                 else:

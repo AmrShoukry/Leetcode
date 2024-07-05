@@ -7,25 +7,20 @@
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         maxValue = [0]
-        self.assignDepths(root)
-        self.traverse(root, maxValue)
+        self.assignDepths(root, maxValue)
         return maxValue[0]
 
-    def assignDepths(self, node):
+    def assignDepths(self, node, maxValue):
         if not node:
             return 0
-        node.depth = 1 + max(self.assignDepths(node.left), self.assignDepths(node.right))
-        return node.depth
-
-    def traverse(self, node, maxValue):
+        node.depth = 1 + max(self.assignDepths(node.left, maxValue), self.assignDepths(node.right, maxValue))
         acc = 0
-        if not node:
-            return
         if node.left:
             acc += node.left.depth
         if node.right:
             acc += node.right.depth
         if acc > maxValue[0]:
             maxValue[0] = acc
-        self.traverse(node.left, maxValue)
-        self.traverse(node.right, maxValue)
+
+        return node.depth
+

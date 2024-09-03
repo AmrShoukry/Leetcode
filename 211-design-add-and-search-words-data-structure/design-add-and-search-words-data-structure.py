@@ -16,18 +16,14 @@ class WordDictionary:
 
     def search_helper(self, word, inner_hash):
         if not word:
-            if 'end' in inner_hash.keys():
-                return True
-            return False
+            return 'end' in inner_hash
         char = word[0]
-        if word[0] == '.':
-            for key, value in inner_hash.items():
-                returnedValue = self.search_helper(f'{key}{word[1:]}', inner_hash)
-                if (returnedValue == True):
+        if char == '.':
+            for key in inner_hash:
+                if key != 'end' and self.search_helper(word[1:], inner_hash[key]):
                     return True
-            return False
-        if word[0] in inner_hash.keys():
-            return self.search_helper(word[1:], inner_hash[word[0]])
+        elif char in inner_hash:
+            return self.search_helper(word[1:], inner_hash[char])
         return False
 
 
